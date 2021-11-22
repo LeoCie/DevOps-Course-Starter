@@ -67,3 +67,18 @@ def save_item(item):
     session['items'] = updated_items
 
     return item
+
+def delete_item(item_id):
+    """
+    Removes an existing item in the session. If no existing item matches the ID of the specified item, nothing is deleted.
+
+    Args:
+        item_id: The ID of the item to delete.
+    """
+    existing_items = get_items()
+
+    updated_items = [item for item in existing_items if item['id'] != int(item_id)]
+
+    session['items'] = updated_items
+
+    return
