@@ -22,7 +22,7 @@
                   <td>{{ item.status }}</td>
                   <td>
                     <form action="{{ url_for('markItemAsComplete') }}" method="post">
-                    {% if item.status != 'Completed' %}
+                    {% if item.status != 'Done' %}
                       <button name="item_id" value="{{ item.id }}">Complete</button>
                     {% else %}
                       <button disabled>Complete</button>
