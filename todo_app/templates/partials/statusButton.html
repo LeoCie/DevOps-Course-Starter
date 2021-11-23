@@ -1,0 +1,8 @@
+<form action="{{ url_for('changeItemStatus') }}" method="post">
+    {% if disabled == true %}
+        <button disabled>{{ text }}</button>
+    {% else %}
+        <input type="hidden" name="status" value="{{ status }}">
+        <button name="item_id" value="{{ item.id }}">{{ text }}</button>
+    {% endif %}
+  </form>
