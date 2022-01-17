@@ -16,7 +16,7 @@
               <th>Title</th>
               <th>Status</th>
           </thead>
-          {% for item in items %}
+          {% for item in view_model.items %}
               <tr>
                   <td>{{ item.title }}</td>
                   <td>{{ item.status }}</td>

@@ -17,8 +17,8 @@ def get_items():
 
 def change_item_status(cardId, status):
     lists = makeGetRequest(trello_base_url + f'/boards/{board}/lists{authParams}')
-    doneListId = [list for list in lists if list['name'] == status][0]['id']
-    return requests.put(trello_base_url + f'/cards/{cardId}{authParams}&idList={doneListId}')
+    listId = [list for list in lists if list['name'] == status][0]['id']
+    return requests.put(trello_base_url + f'/cards/{cardId}{authParams}&idList={listId}')
 
 def delete_item(cardId):
     return requests.delete(trello_base_url + f'/cards/{cardId}{authParams}')
