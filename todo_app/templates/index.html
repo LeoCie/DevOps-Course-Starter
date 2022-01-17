@@ -11,39 +11,21 @@
     <div class="col-md-12">
       <h2>Tasks</h2>
       <ul class="list-group mb-4">
-        <table>
-          <thead>
-              <th>Title</th>
-              <th>Status</th>
-          </thead>
-          {% for item in view_model.items %}
-              <tr>
-                  <td>{{ item.title }}</td>
-                  <td>{{ item.status }}</td>
-                  <td>
-                    {% with status="To Do", text="Mark as not started", disabled=item.status == 'Not Started' %}
-                      {% include "partials/statusButton.html" %}
-                    {% endwith %}
-                  </td>
-                  <td>
-                    {% with status="Doing", text="Mark as in progress", disabled=item.status == 'In Progress' %}
-                      {% include "partials/statusButton.html" %}
-                    {% endwith %}
-                  </td>
-                  <td>
-                    {% with status="Done", text="Mark as done", disabled=item.status == 'Done' %}
-                      {% include "partials/statusButton.html" %}
-                    {% endwith %}
-                  </td>
-                  </td>
-                  <td>
-                    <form action="{{ url_for('deleteItem') }}" method="post">
-                      <button name="item_id" value="{{ item.id }}">X</button>
-                    </form>
-                  </td>
-              </tr>
-          {% endfor %}
-        </table>
+        {% if view_model.to_do_items|length > 0 %}
+          {% with items=view_model.to_do_items, title='To Do Items' %}
+            {% include "partials/tableOfItems.html" %}
+          {% endwith %}
+        {% endif %}
+        {% if view_model.in_progress_items|length > 0 %}
+          {% with items=view_model.in_progress_items, title='In Progress Items' %}
+            {% include "partials/tableOfItems.html" %}
+          {% endwith %}
+        {% endif %}
+        {% if view_model.completed_items|length > 0 %}
+          {% with items=view_model.completed_items, title='Completed Items' %}
+            {% include "partials/tableOfItems.html" %}
+          {% endwith %}
+        {% endif %}
       </ul>
     </div>
   </div>
