@@ -1,0 +1,70 @@
+- name: Run to-do app
+  hosts: webservers
+  remote_user: ec2-user
+
+  vars_prompt:
+
+    - name: trello_board_id
+      prompt: What is the trello board ID?
+
+    - name: trello_key
+      prompt: What is the trello key?
+
+    - name: trello_token
+      prompt: What is the trello token?
+
+  tasks:
+    - name: Install git and python
+      ansible.builtin.yum:
+        name: "{{ packages }}"
+        state: installed
+      vars:
+        packages:
+        - git
+        - python3
+      become: yes
+
+    - name: Install Poetry
+      ansible.builtin.shell:
+        cmd: curl -sSL https://install.python-poetry.org | python3 -
+        creates: /home/ec2-user/.local/bin/poetry
+
+    - name: Create app directory
+      ansible.builtin.file:
+        path: /opt/todoapp
+        state: directory
+        mode: '777'
+      become: yes
+
+    - name: Clone app repo
+      ansible.builtin.git:
+        repo: 'https://github.com/LeoCie/DevOps-Course-Starter'
+        dest: /opt/todoapp
+        version: exercise-4
+
+    - name: Install app dependancies
+      ansible.builtin.shell:
+        cmd: export PATH="$PATH:$HOME/.local/bin:$HOME/bin" && poetry install
+        chdir: /opt/todoapp
+
+    - name: Create the env file from the template
+      ansible.builtin.template:
+        src: .env.j2
+        dest: /opt/todoapp/.env
+        owner: ec2-user
+        mode: '777'
+
+    - name: Copy service file
+      ansible.builtin.copy:
+        src: /opt/todoapp/todoapp.service
+        dest: /etc/systemd/system/todoapp.service
+        remote_src: yes
+        owner: root
+        mode: '777'
+      become: yes
+
+    - name: Start the app
+      ansible.builtin.systemd:
+        state: started
+        name: todoapp.service
+      become: yes
