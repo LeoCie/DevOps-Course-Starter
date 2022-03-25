@@ -1,5 +1,6 @@
 import requests
 import os
+import urllib.parse
 from todo_app.models.Item import Item
 
 trello_base_url = 'https://api.trello.com/1'
@@ -24,6 +25,7 @@ def delete_item(cardId):
 
 def create_item(title):
     board, authParams = getBoardAndAuthParams()
+    title = urllib.parse.quote(title.replace('&',' '))
     lists = makeGetRequest(trello_base_url + f'/boards/{board}/lists{authParams}')
     todoListId = [list for list in lists if list['name'] == 'To Do'][0]['id']
     requests.post(trello_base_url + f'/cards{authParams}&name={title}&idList={todoListId}')
@@ -31,7 +33,7 @@ def create_item(title):
 def parseItems(listOfCards, status):
     returnList = []
     for card in listOfCards:
-            returnList.append(Item.from_trello_card(card, status))
+        returnList.append(Item.from_trello_card(card, status))
     return returnList
 
 def makeGetRequest(url):
