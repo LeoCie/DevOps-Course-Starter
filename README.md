@@ -58,10 +58,17 @@ Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser
 
 ## Testing
 
-The app uses pytest for unit and integration testing.
-To run all the tests from the command line just run
+The app uses pytest for unit, integration and end-to-end selenium testing.
+To run the unit and integration tests from the command line run
 ```bash
-poetry run pytest
+poetry run pytest todo_app_tests
+```
+To run the end-to-end selenium tests you will need to:
+1. download [Gecko Driver](https://github.com/mozilla/geckodriver/releases) and place the exe in the project root
+1. make sure Firefox is installed
+1. from the command line run
+```bash
+poetry run pytest todo_app_tests_e2e
 ```
 
 Or you can run them from VSCode:
