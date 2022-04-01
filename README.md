@@ -55,3 +55,22 @@ You should see output similar to the following:
  * Debugger PIN: 226-556-590
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
+
+## Testing
+
+The app uses pytest for unit, integration and end-to-end selenium testing.
+To run the unit and integration tests from the command line run
+```bash
+poetry run pytest todo_app_tests
+```
+To run the end-to-end selenium tests you will need to:
+1. download [Gecko Driver](https://github.com/mozilla/geckodriver/releases) and place the exe in the project root
+1. make sure Firefox is installed
+1. from the command line run
+```bash
+poetry run pytest todo_app_tests_e2e
+```
+
+Or you can run them from VSCode:
+
+Click the conical flask icon on the left edge of VSCode. Click the refresh icon at the top of the panel to rediscover tests. Click the play icon at the top to run all tests. Click the play icon next to a file or test name to run that file or test individually.

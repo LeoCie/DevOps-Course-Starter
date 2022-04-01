@@ -1,0 +1,33 @@
+
+<h3>{{ title }}</h3>
+<table>
+  <thead>
+    <th>Title</th>
+  </thead>
+  {% for item in items %}
+    <tr>
+      <td>{{ item.title }}</td>
+      <td>
+        {% with status="To Do", text="Mark as not started", disabled=item.status == 'Not Started' %}
+          {% include "partials/statusButton.html" %}
+        {% endwith %}
+      </td>
+      <td>
+        {% with status="Doing", text="Mark as in progress", disabled=item.status == 'In Progress' %}
+          {% include "partials/statusButton.html" %}
+        {% endwith %}
+      </td>
+      <td>
+        {% with status="Done", text="Mark as done", disabled=item.status == 'Done' %}
+          {% include "partials/statusButton.html" %}
+        {% endwith %}
+      </td>
+      </td>
+      <td>
+        <form action="{{ url_for('deleteItem') }}" method="post">
+          <button name="item_id" value="{{ item.id }}">X</button>
+        </form>
+      </td>
+    </tr>
+  {% endfor %}
+</table>
