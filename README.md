@@ -7,13 +7,13 @@ The project uses poetry for Python to create an isolated environment and manage 
 ### Poetry installation (Bash)
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python -
+curl -sSL https://install.python-poetry.org | python -
 ```
 
 ### Poetry installation (PowerShell)
 
 ```powershell
-(Invoke-WebRequest -Uri https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py -UseBasicParsing).Content | python -
+(Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | python -
 ```
 
 ## Dependencies
@@ -39,6 +39,26 @@ After creating an account you can get a key and token from [here](https://trello
 
 ## Running the App
 
+### In docker
+
+Make sure you have [Docker](https://docs.docker.com/get-docker/) installed and running
+
+You will first need to build the docker image, this can be done by running the following in this directory:
+```bash
+docker build --target development --tag todo-app:dev .
+```
+
+Now start the container using the following command:
+```bash
+docker run --env-file .env -p 5100:80 --mount type=bind,source="$(pwd)"/todo_app,target=/app/todo_app/todo_app -d todo-app:dev
+```
+
+The site will be available at `localhost:5100`.
+
+This uses a bind mount of the todo_app folder on your machine, so you won't need to restart the container to see any changes you make locally.
+
+### On the command line
+
 Once the all dependencies have been installed, start the Flask app in development mode within the Poetry environment by running:
 ```bash
 $ poetry run flask run
@@ -63,6 +83,7 @@ To run the unit and integration tests from the command line run
 ```bash
 poetry run pytest todo_app_tests
 ```
+
 To run the end-to-end selenium tests you will need to:
 1. download [Gecko Driver](https://github.com/mozilla/geckodriver/releases) and place the exe in the project root
 1. make sure Firefox is installed
