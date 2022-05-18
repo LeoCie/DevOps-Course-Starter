@@ -34,7 +34,7 @@ def driver():
         yield driver
 
 def test_task_journey(driver, app_with_temp_board):
-    driver.get('http://localhost:5000/')
+    driver.get('http://127.0.0.1:5000/')
     assert driver.title == 'To-Do App'
 
 trello_base_url = 'https://api.trello.com/1'
