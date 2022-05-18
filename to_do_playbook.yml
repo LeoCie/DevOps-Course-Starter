@@ -16,12 +16,8 @@
   tasks:
     - name: Install git and python
       ansible.builtin.yum:
-        name: "{{ packages }}"
+        name: git python3
         state: installed
-      vars:
-        packages:
-        - git
-        - python3
       become: yes
 
     - name: Install Poetry
@@ -59,8 +55,6 @@
         src: /opt/todoapp/todoapp.service
         dest: /etc/systemd/system/todoapp.service
         remote_src: yes
-        owner: root
-        mode: '777'
       become: yes
 
     - name: Start the app
