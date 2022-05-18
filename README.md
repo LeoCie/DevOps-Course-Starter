@@ -74,3 +74,9 @@ poetry run pytest todo_app_tests_e2e
 Or you can run them from VSCode:
 
 Click the conical flask icon on the left edge of VSCode. Click the refresh icon at the top of the panel to rediscover tests. Click the play icon at the top to run all tests. Click the play icon next to a file or test name to run that file or test individually.
+
+## Running as a service with ansible
+
+Make sure your managed VMs are listed in the hosts.ini file under the "webservers" group.
+Copy the hosts.ini and to_do_playbook.yml files onto your control node.
+On the control node run `ansible-playbook to_do_playbook.yml -i hosts.ini`
