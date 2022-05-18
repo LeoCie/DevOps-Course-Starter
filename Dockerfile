@@ -1,10 +1,10 @@
 FROM python:3.8-slim-buster as base 
 
 RUN pip install poetry
-COPY poetry.lock pyproject.toml /app/todo_app/
 WORKDIR /app/todo_app
-RUN poetry install
-COPY . .
+COPY poetry.lock pyproject.toml ./
+RUN poetry install --no-dev
+COPY ./todo_app ./todo_app
 EXPOSE 80
 
 FROM base as production
