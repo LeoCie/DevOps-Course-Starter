@@ -8,7 +8,7 @@ COPY ./todo_app ./todo_app
 EXPOSE 80
 
 FROM base as production
-CMD poetry run gunicorn -b "0.0.0.0:80" 'todo_app.app:create_app()'
+CMD poetry run gunicorn -b "0.0.0.0:${PORT:-80}" "todo_app.app:create_app()"
 
 FROM base as development
 CMD poetry run flask run -h "0.0.0.0" -p 80
