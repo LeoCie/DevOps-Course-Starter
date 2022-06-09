@@ -39,7 +39,7 @@ After creating an account you can get a key and token from [here](https://trello
 
 ## Running the App
 
-### In docker
+### In Docker
 
 Make sure you have [Docker](https://docs.docker.com/get-docker/) installed and running
 
@@ -77,6 +77,25 @@ You should see output similar to the following:
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
 
 ## Testing
+
+### Using Docker
+
+You will first need to build the test docker image, this can be done by running the following in this directory:
+```bash
+docker build --target test --tag todo-app:test .
+```
+
+Then you can run the unit and integration tests by running:
+```bash
+docker run --env-file .env.test todo-app:test tests
+```
+
+You can run the e2e selenium tests by running:
+```bash
+docker run --env-file .env todo-app:test tests_e2e
+```
+
+### On the command line
 
 The app uses pytest for unit, integration and end-to-end selenium testing.
 To run the unit and integration tests from the command line run

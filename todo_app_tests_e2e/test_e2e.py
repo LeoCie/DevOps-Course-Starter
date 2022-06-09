@@ -1,4 +1,5 @@
 import os
+from selenium.webdriver.firefox.options import Options
 import pytest
 import requests
 from todo_app import app
@@ -27,11 +28,13 @@ def app_with_temp_board():
 
 @pytest.fixture(scope="module")
 def driver():
-    with webdriver.Firefox() as driver:
+    opts = Options()
+    opts.headless = True
+    with webdriver.Firefox(options=opts) as driver:
         yield driver
 
 def test_task_journey(driver, app_with_temp_board):
-    driver.get('http://localhost:5000/')
+    driver.get('http://127.0.0.1:5000/')
     assert driver.title == 'To-Do App'
 
 trello_base_url = 'https://api.trello.com/1'
