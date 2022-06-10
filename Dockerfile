@@ -3,7 +3,7 @@ FROM python:3.8-slim-buster as base
 RUN pip install poetry
 WORKDIR /app/todo_app
 COPY poetry.lock pyproject.toml ./
-RUN poetry install --no-dev
+ RUN poetry config virtualenvs.create false --local && poetry install --no-dev
 COPY ./todo_app ./todo_app
 EXPOSE 80
 
