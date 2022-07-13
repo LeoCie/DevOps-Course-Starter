@@ -17,3 +17,44 @@ jobs:
     - run: docker build --target test --tag todo-app:test .
     - run: docker run --env-file .env.test todo-app:test tests
     - run: docker run --env-file .env.test -e TRELLO_KEY=${{ secrets.TRELLO_KEY }} -e TRELLO_TOKEN=${{ secrets.TRELLO_TOKEN }} -e TRELLO_BOARD_ID=${{ secrets.TRELLO_BOARD_ID }} todo-app:test tests_e2e
+  build-docker-image:
+    needs: [build]
+    if: ${{ github.ref == 'refs/heads/master' && github.event_name == 'push' }}
+    name: Build and push docker image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          target: production
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/todoapp:latest,${{ secrets.DOCKERHUB_USERNAME }}/todoapp:${{ github.sha }}
+  deploy-to-heroku:
+    needs: [build-docker-image]
+    name: Deploy to Heroku
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Release to Heroku
+        uses: gonuit/heroku-docker-deploy@v1.3.3
+        with:
+          email: ${{ secrets.HEROKU_EMAIL }}
+          heroku_api_key: ${{ secrets.HEROKU_TOKEN }}
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+          dockerfile_directory: ./
+          dockerfile_name: Dockerfile
+          docker_options: "--target production"
+          process_type: web
