@@ -41,7 +41,7 @@ After creating an account you can get a key and token from [here](https://trello
 
 ### Live app
 
-Currently the app is running live at https://lc-todo-app-devops.herokuapp.com/
+Currently the app is running live at https://lc-devops-todo.azurewebsites.net/
 
 ### In Docker
 
