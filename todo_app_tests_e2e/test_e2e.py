@@ -1,18 +1,17 @@
 import os
 from selenium.webdriver.firefox.options import Options
 import pytest
-import requests
+import pymongo
 from todo_app import app
 from threading import Thread
 from selenium import webdriver
 from dotenv import load_dotenv, find_dotenv
 
 @pytest.fixture(scope='module')
-def app_with_temp_board():
-    # Create the new board & update the board id environment variable
-    board_id = create_board()
-    os.environ['TRELLO_BOARD_ID'] = board_id
-    
+def app_with_temp_db():
+    # Create the new db & update the mongo db name environment variable
+    setTestEnvVariables()
+
     # construct the new application
     application = app.create_app()
     
@@ -24,7 +23,7 @@ def app_with_temp_board():
     
     # Tear Down
     thread.join(1)
-    delete_board(board_id)
+    drop_db()
 
 @pytest.fixture(scope="module")
 def driver():
@@ -33,33 +32,16 @@ def driver():
     with webdriver.Firefox(options=opts) as driver:
         yield driver
 
-def test_task_journey(driver, app_with_temp_board):
+def test_task_journey(driver, app_with_temp_db):
     driver.get('http://127.0.0.1:5000/')
     assert driver.title == 'To-Do App'
 
-trello_base_url = 'https://api.trello.com/1'
-def create_board():
-    board, authParams = loadEnvThenGetBoardAndAuthParams()
-
-    board = requests.get(trello_base_url + f'/boards/{board}{authParams}')
-    org_id = board.json()['idOrganization']
-
-    create_response = requests.post(trello_base_url + f'/boards/{authParams}&name=e2e-Test-board&idOrganization={org_id}')
-    if create_response.status_code != 200:
-        raise Exception('Board could not be created')
-    return create_response.json()['id']
-
-def delete_board(board_id):
-    board, authParams = loadEnvThenGetBoardAndAuthParams()
-    delete_response = requests.delete(trello_base_url + f'/boards/{board_id}{authParams}')
-    if delete_response.status_code != 200:
-        raise Exception('Board could not be deleted')
-
-def loadEnvThenGetBoardAndAuthParams():
+def setTestEnvVariables():
     file_path = find_dotenv('.env')
     load_dotenv(file_path)
-    board = os.getenv('TRELLO_BOARD_ID')
-    token = os.getenv('TRELLO_TOKEN')
-    key = os.getenv('TRELLO_KEY')
-    authParams = f'?token={token}&key={key}'
-    return board, authParams
+    os.environ['MONGO_DB_NAME'] = 'items-e2e-test'
+    
+def drop_db():
+    connection_string = os.getenv('MONGO_DB_CONNECTION_STRING')
+    client = pymongo.MongoClient(connection_string)
+    client.drop_database(os.getenv('MONGO_DB_NAME'))
