@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 from werkzeug.utils import redirect
-from todo_app.data.trello_items import get_items, create_item, delete_item, change_item_status
+from todo_app.data.mongodb_items import get_items, create_item, delete_item, change_item_status
 from todo_app.flask_config import Config
 from todo_app.models.ViewModel import ViewModel
 
@@ -11,7 +11,7 @@ def create_app():
     @app.route('/')
     def index():
         items = get_items()
-        items = sorted(items, key=lambda item: item.title)
+        items = sorted(items, key=lambda item: item.created)
         item_view_model = ViewModel(items)
         return render_template('index.html', view_model=item_view_model)
 
