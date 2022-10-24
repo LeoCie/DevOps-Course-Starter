@@ -8,25 +8,33 @@
     <tr>
       <td>{{ item.title }}</td>
       <td>
-        {% with status="To Do", text="Mark as not started", disabled=item.status == 'Not Started' %}
-          {% include "partials/statusButton.html" %}
-        {% endwith %}
+        {% if show_actions %}
+          {% with status="To Do", text="Mark as not started", disabled=item.status == 'Not Started' %}
+            {% include "partials/statusButton.html" %}
+          {% endwith %}
+        {% endif %}
       </td>
       <td>
-        {% with status="Doing", text="Mark as in progress", disabled=item.status == 'In Progress' %}
-          {% include "partials/statusButton.html" %}
-        {% endwith %}
+        {% if show_actions %}
+          {% with status="Doing", text="Mark as in progress", disabled=item.status == 'In Progress' %}
+            {% include "partials/statusButton.html" %}
+          {% endwith %}
+        {% endif %}
       </td>
       <td>
-        {% with status="Done", text="Mark as done", disabled=item.status == 'Done' %}
-          {% include "partials/statusButton.html" %}
-        {% endwith %}
+        {% if show_actions %}
+          {% with status="Done", text="Mark as done", disabled=item.status == 'Done' %}
+            {% include "partials/statusButton.html" %}
+          {% endwith %}
+        {% endif %}
       </td>
       </td>
       <td>
-        <form action="{{ url_for('deleteItem') }}" method="post">
-          <button name="item_id" value="{{ item.id }}">X</button>
-        </form>
+        {% if show_actions %}
+          <form action="{{ url_for('deleteItem') }}" method="post">
+            <button name="item_id" value="{{ item.id }}">X</button>
+          </form>
+        {% endif %}
       </td>
     </tr>
   {% endfor %}
