@@ -32,9 +32,13 @@ $ cp .env.template .env  # (first time only)
 
 The `.env` file is used by flask to set environment variables when running `flask run`. This enables things like development mode (which also enables features like hot reloading when you make a file change). There's also a [SECRET_KEY](https://flask.palletsprojects.com/en/1.1.x/config/#SECRET_KEY) variable which is used to encrypt the flask session cookie.
 
-## MongoDB
+### MongoDB
 
 This app uses [MongoDB](https://mongodb.com/) to store todo item data. You will need to create a MongoDB instance to use the app locally, adding the connection string and DB name to the `.env` file.
+
+### Github Authentication
+
+This app uses a [GitHub OAuth App](https://docs.github.com/en/developers/apps/building-oauth-apps/authorizing-oauth-apps) for authentication. You will need to create OAuth App instances to use the app locally and live, adding the client ID and client secret to the `.env` file (local) and to your environment variables in any other environments.
 
 ## Running the App
 
