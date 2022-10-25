@@ -12,23 +12,24 @@
       <h2>Tasks</h2>
       <ul class="list-group mb-4">
         {% if view_model.to_do_items|length > 0 %}
-          {% with items=view_model.to_do_items, title='To Do Items' %}
+          {% with items=view_model.to_do_items, title='To Do Items', show_actions=show_actions %}
             {% include "partials/tableOfItems.html" %}
           {% endwith %}
         {% endif %}
         {% if view_model.in_progress_items|length > 0 %}
-          {% with items=view_model.in_progress_items, title='In Progress Items' %}
+          {% with items=view_model.in_progress_items, title='In Progress Items', show_actions=show_actions %}
             {% include "partials/tableOfItems.html" %}
           {% endwith %}
         {% endif %}
         {% if view_model.completed_items|length > 0 %}
-          {% with items=view_model.completed_items, title='Completed Items' %}
+          {% with items=view_model.completed_items, title='Completed Items', show_actions=show_actions %}
             {% include "partials/tableOfItems.html" %}
           {% endwith %}
         {% endif %}
       </ul>
     </div>
   </div>
+  {% if show_actions %}
   <div class="row">
     <div class="col-md-12">
       <h2>Add a new task:</h2>
@@ -39,4 +40,5 @@
       </form>
     </div>
   </div>
+  {% endif %}
 {% endblock %}

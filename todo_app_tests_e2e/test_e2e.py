@@ -40,6 +40,7 @@ def setTestEnvVariables():
     file_path = find_dotenv('.env')
     load_dotenv(file_path)
     os.environ['MONGO_DB_NAME'] = 'items-e2e-test'
+    os.environ['LOGIN_DISABLED'] = 'True'
     
 def drop_db():
     connection_string = os.getenv('MONGO_DB_CONNECTION_STRING')

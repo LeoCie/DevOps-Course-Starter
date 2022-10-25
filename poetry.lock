@@ -113,6 +113,18 @@ docs = ["sphinx", "pallets-sphinx-themes", "sphinxcontrib-log-cabinet", "sphinx-
 dotenv = ["python-dotenv"]
 
 [[package]]
+name = "flask-login"
+version = "0.6.2"
+description = "User authentication and session management for Flask."
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+Flask = ">=1.0.4"
+Werkzeug = ">=1.0.1"
+
+[[package]]
 name = "gunicorn"
 version = "20.1.0"
 description = "WSGI HTTP Server for UNIX"
@@ -204,7 +216,7 @@ python-versions = ">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*"
 name = "mongomock"
 version = "4.1.2"
 description = "Fake pymongo stub for testing simple MongoDB-dependent code"
-category = "main"
+category = "dev"
 optional = false
 python-versions = "*"
 
@@ -227,7 +239,7 @@ attrs = ">=19.2.0"
 name = "packaging"
 version = "21.3"
 description = "Core utilities for Python packages"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.6"
 
@@ -301,7 +313,7 @@ test = ["flaky", "pretend", "pytest (>=3.0.1)"]
 name = "pyparsing"
 version = "3.0.7"
 description = "Python parsing module"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.6"
 
@@ -384,7 +396,7 @@ urllib3 = {version = ">=1.26,<2.0", extras = ["secure", "socks"]}
 name = "sentinels"
 version = "1.0.0"
 description = "Various objects to denote special meanings in python"
-category = "main"
+category = "dev"
 optional = false
 python-versions = "*"
 
@@ -508,7 +520,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "23be79cba1dde208c063afd68bd9d096f8b9ad61a17e1f9fd26214749c234ebb"
+content-hash = "b94543573cfccd95351a46a2b7db366e3bdde6b5fb79b86ab6902a50f3106954"
 
 [metadata.files]
 async-generator = [
@@ -617,6 +629,7 @@ flask = [
     {file = "Flask-1.1.2-py2.py3-none-any.whl", hash = "sha256:8a4fdd8936eba2512e9c85df320a37e694c93945b33ef33c89946a340a238557"},
     {file = "Flask-1.1.2.tar.gz", hash = "sha256:4efa1ae2d7c9865af48986de8aeb8504bf32c7f3d6fdc9353d34b21f4b127060"},
 ]
+flask-login = []
 gunicorn = [
     {file = "gunicorn-20.1.0-py3-none-any.whl", hash = "sha256:9dcc4547dbb1cb284accfb15ab5667a0e5d1881cc443e0677b4882a4067a807e"},
     {file = "gunicorn-20.1.0.tar.gz", hash = "sha256:e0a968b5ba15f8a328fdfd7ab1fcb5af4470c28aaf7e55df02a99bc13138e6e8"},
